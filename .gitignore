@@ -1,0 +1,8 @@
+.idea
+Library
+Packages
+Logs
+UserSettings
+obj
+*.csproj
+YD_Project.sln
