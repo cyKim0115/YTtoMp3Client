@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,13 +13,20 @@ public class PopupManager : SingletonObject<PopupManager>
         string typeName = typeof(T).Name;
         if (!_dicPopup.TryGetValue(typeName, out var popup))
         {
-            GameObject insObj = Instantiate(Resources.Load<GameObject>($"Popup/{typeName}"));
+            try
+            {
+                GameObject insObj = Instantiate(Resources.Load<GameObject>($"Popup/{typeName}"));
             
-            var getCheck = insObj.TryGetComponent(out popup);
-            if (!getCheck)
-                Debug.LogError($"PopupManager : 생성한 오브젝트에 팝업 컴포넌트가 없습니다. {typeName}");
+                var getCheck = insObj.TryGetComponent(out popup);
+                if (!getCheck)
+                    Debug.LogError($"PopupManager : 생성한 오브젝트에 팝업 컴포넌트가 없습니다. {typeName}");
 
-            _dicPopup.Add(typeName, popup);
+                _dicPopup.Add(typeName, popup);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"PopupManager : 생성한 오브젝트에 팝업 컴포넌트가 없습니다. {typeName}");
+            }
         }
 
         popup.ShowPopup<T>();

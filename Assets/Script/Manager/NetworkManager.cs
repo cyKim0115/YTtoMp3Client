@@ -11,6 +11,10 @@ using DefaultContractResolver = Newtonsoft.Json.Serialization.DefaultContractRes
 
 public class NetworkManager : SingletonObject<NetworkManager>
 {
+    private bool _connectionCheck = false;
+
+    public bool ConnectionCheck => _connectionCheck;
+    
     public async UniTask RequestConvert(string videoUrl)
     {
         var convertInfo = new ConvertRequest()
@@ -56,5 +60,22 @@ public class NetworkManager : SingletonObject<NetworkManager>
         }
 
         return listFileItem;
+    }
+    
+    public async UniTask<bool> RequestCheck()
+    {
+        WebRequest request = WebRequest.Create($"{ConnectionConfigManager.Instance.GetBaseUrl()}/List");
+        request.Method = "GET";
+        request.ContentType = "application/json;charset=UTF-8";
+        var emptyStringBytes = Encoding.UTF8.GetBytes("");
+        request.ContentLength = emptyStringBytes.Length;
+        var dataStream = await request.GetRequestStreamAsync();
+        
+        dataStream.WriteAsync(emptyStringBytes, 0, emptyStringBytes.Length).GetAwaiter().GetResult();
+        dataStream.Close();
+
+        using var response = (HttpWebResponse)(await request.GetResponseAsync());
+
+        return response != null && response.StatusCode == HttpStatusCode.OK;
     }
 }

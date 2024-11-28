@@ -2,6 +2,8 @@ using UnityEngine;
 
 public abstract class PopupBase<T> : MonoBehaviour where T : PopupBase<T>, IPopup
 {
+    private GameObject _cachedGameObject;
+    
     public T ShowPopup<T>() where T : PopupBase<T>, IPopup
     {
         gameObject.SetActive(true);
@@ -16,6 +18,17 @@ public abstract class PopupBase<T> : MonoBehaviour where T : PopupBase<T>, IPopu
         return this as T;
     }
 
+    public bool IsActive
+    {
+        get
+        {
+            if (_cachedGameObject == null)
+                _cachedGameObject = gameObject;
+
+            return _cachedGameObject;
+        }
+    }
+    
     protected virtual void OnShow()
     {
         

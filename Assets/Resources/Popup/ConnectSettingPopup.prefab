@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 3045553754720627160}
   - component: {fileID: 4453463877397394994}
   m_Layer: 5
-  m_Name: ServerCheckPopup
+  m_Name: ConnectSettingPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -846,6 +846,7 @@ GameObject:
   - component: {fileID: 5012043366603874198}
   - component: {fileID: 635523477147118265}
   - component: {fileID: 767994166792004108}
+  - component: {fileID: 4745601424189605046}
   m_Layer: 5
   m_Name: Check Button
   m_TagString: Untagged
@@ -930,7 +931,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -955,9 +956,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ConvertController, Assembly-CSharp
-        m_MethodName: OnClickConvert
+      - m_Target: {fileID: 6559792963565520171}
+        m_TargetAssemblyTypeName: ConnectSettingPopup, Assembly-CSharp
+        m_MethodName: OnClickCheck
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -987,6 +988,28 @@ MonoBehaviour:
   inactiveButtonColor: {r: 0.1987362, g: 0.1987362, b: 0.2075472, a: 1}
   activeButtonTextColor: {r: 0.997, g: 0.997, b: 1, a: 1}
   inactiveButtonTextColor: {r: 0.4, g: 0.4, b: 0.45, a: 1}
+--- !u!95 &4745601424189605046
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3220124577133215454}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3aef9b0171362425f9b2b3463993d0e1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3829471653444814737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1328,8 +1351,9 @@ GameObject:
   - component: {fileID: 7983849319560910363}
   - component: {fileID: 1239569519249943656}
   - component: {fileID: 661581689117129466}
+  - component: {fileID: 6559792963565520171}
   m_Layer: 5
-  m_Name: ServerCheckPopup
+  m_Name: ConnectSettingPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1418,6 +1442,39 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6559792963565520171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7426697403814169036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae266128f8646618cbf59caedc2b6f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imgBackground: {fileID: 4648983050267097024}
+  bgColorTween_On:
+    duration: 0.5
+    value: 0.5
+    ease: 1
+  bgColorTween_Off:
+    duration: 0.3
+    value: 0
+    ease: 1
+  rtPanel: {fileID: 6233349644629468702}
+  panelMoveTween_On:
+    duration: 0.66
+    value: 0
+    ease: 3
+  panelMoveTween_Off:
+    duration: 0.4
+    value: -1000
+    ease: 3
+  ipInputField: {fileID: 5348891750411803674}
+  portInputField: {fileID: 655489328535461888}
+  checkButtonColorChanger: {fileID: 767994166792004108}
 --- !u!1 &7738763003539676750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,9 +1513,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -50}
+  m_AnchoredPosition: {x: 0, y: -1000}
   m_SizeDelta: {x: 0, y: 1000}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 0.05}
 --- !u!222 &2814683730968535537
 CanvasRenderer:
   m_ObjectHideFlags: 0

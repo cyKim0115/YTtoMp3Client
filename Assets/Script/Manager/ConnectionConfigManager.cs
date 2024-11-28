@@ -7,13 +7,23 @@ public class ConnectionConfigManager : SingletonObject<ConnectionConfigManager>
 
     public string GetBaseUrl()
     {
-        return "http://192.168.0.58:9227";
-        // return $"http://{GetValue(ConnectIpKey)}:{GetValue(ConnectPortKey)}";
+        // return "http://192.168.0.58:9227";
+        return $"http://{GetValue(ConnectIpKey)}:{GetValue(ConnectPortKey)}";
+    }
+
+    public string GetIpSetting()
+    {
+        return GetValue(ConnectIpKey);
+    }
+
+    public string GetPortSetting()
+    {
+        return GetValue(ConnectPortKey);
     }
 
     private string GetValue(string key)
     {
-        if (PlayerPrefs.HasKey(key))
+        if (!PlayerPrefs.HasKey(key))
             PlayerPrefs.SetString(key, "");
 
         return PlayerPrefs.GetString(key);
