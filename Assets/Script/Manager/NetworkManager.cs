@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using UnityEngine;
+using UnityEngine.Events;
 using YDLib;
 using DefaultContractResolver = Newtonsoft.Json.Serialization.DefaultContractResolver;
 
@@ -14,6 +15,9 @@ public class NetworkManager : SingletonObject<NetworkManager>
     private bool _connectionCheck = false;
 
     public bool ConnectionCheck => _connectionCheck;
+
+    public UnityAction<bool> ConnectionStateChanged;
+
     
     public async UniTask RequestConvert(string videoUrl)
     {
