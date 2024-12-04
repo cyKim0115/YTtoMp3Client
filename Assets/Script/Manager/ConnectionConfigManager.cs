@@ -16,9 +16,19 @@ public class ConnectionConfigManager : SingletonObject<ConnectionConfigManager>
         return GetValue(ConnectIpKey);
     }
 
+    public void SetIpSetting(string value)
+    {
+        SetValue(ConnectIpKey,value);
+    }
+
     public string GetPortSetting()
     {
         return GetValue(ConnectPortKey);
+    }
+    
+    public void SetPortSetting(string value)
+    {
+        SetValue(ConnectPortKey, value);
     }
 
     private string GetValue(string key)
@@ -28,6 +38,7 @@ public class ConnectionConfigManager : SingletonObject<ConnectionConfigManager>
 
         return PlayerPrefs.GetString(key);
     }
+
 
     private void SetValue(string key, string value)
     {

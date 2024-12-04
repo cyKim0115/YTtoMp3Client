@@ -25,7 +25,7 @@ public abstract class PopupBase<T> : MonoBehaviour where T : PopupBase<T>, IPopu
             if (_cachedGameObject == null)
                 _cachedGameObject = gameObject;
 
-            return _cachedGameObject;
+            return _cachedGameObject.activeInHierarchy;
         }
     }
     

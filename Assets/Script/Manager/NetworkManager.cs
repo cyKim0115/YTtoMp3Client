@@ -68,18 +68,43 @@ public class NetworkManager : SingletonObject<NetworkManager>
     
     public async UniTask<bool> RequestCheck()
     {
-        WebRequest request = WebRequest.Create($"{ConnectionConfigManager.Instance.GetBaseUrl()}/List");
-        request.Method = "GET";
+        WebRequest request = WebRequest.Create($"{ConnectionConfigManager.Instance.GetBaseUrl()}/Check");
+        request.Method = "GET"; 
         request.ContentType = "application/json;charset=UTF-8";
-        var emptyStringBytes = Encoding.UTF8.GetBytes("");
-        request.ContentLength = emptyStringBytes.Length;
-        var dataStream = await request.GetRequestStreamAsync();
+        // var emptyStringBytes = Encoding.UTF8.GetBytes("");
+        // request.ContentLength = emptyStringBytes.Length;
+        // var dataStream = await request.GetRequestStreamAsync();
         
-        dataStream.WriteAsync(emptyStringBytes, 0, emptyStringBytes.Length).GetAwaiter().GetResult();
-        dataStream.Close();
+        // dataStream.WriteAsync(emptyStringBytes, 0, emptyStringBytes.Length).GetAwaiter().GetResult();
+        // dataStream.Close();
 
         using var response = (HttpWebResponse)(await request.GetResponseAsync());
 
         return response != null && response.StatusCode == HttpStatusCode.OK;
+    }
+
+    
+    public async UniTask RequestDownload(string fileName)
+    {
+        var downloadRequest = new DownloadRequest()
+        {
+            name = fileName,
+            extension = ".mp3"
+        };
+        
+        WebRequest request = WebRequest.Create($"{ConnectionConfigManager.Instance.GetBaseUrl()}/Download");
+        request.Method = "GET";
+        request.ContentType = "application/json;charset=UTF-8";
+        var postData = JsonUtility.ToJson(downloadRequest);
+        var byteArray = Encoding.UTF8.GetBytes(postData);
+
+        request.ContentLength = byteArray.Length;
+        var dataStream = await request.GetRequestStreamAsync();
+        
+        dataStream.WriteAsync(byteArray, 0, byteArray.Length).GetAwaiter().GetResult();
+        dataStream.Close();
+
+        var response = await request.GetResponseAsync();
+        
     }
 }

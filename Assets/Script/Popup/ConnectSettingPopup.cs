@@ -31,12 +31,16 @@ public class ConnectSettingPopup : PopupBase<ConnectSettingPopup>, IPopup
 
     private void Init()
     {
+        ipInputField.text = ConnectionConfigManager.Instance.GetIpSetting();
+        portInputField.text = ConnectionConfigManager.Instance.GetPortSetting();
     }
 
     #region Popup
 
     public void ShowWithAnimation()
     {
+        Init();
+        
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         
@@ -74,6 +78,9 @@ public class ConnectSettingPopup : PopupBase<ConnectSettingPopup>, IPopup
 
     public void OnClickCheck()
     {
+        ConnectionConfigManager.Instance.SetIpSetting(ipInputField.text);
+        ConnectionConfigManager.Instance.SetPortSetting(portInputField.text);
+        
         NetworkManager.Instance.RequestCheck().Forget();
         
         HideWithAnimation().Forget();

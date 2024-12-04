@@ -24,7 +24,7 @@ public class FlowController : MonoBehaviour
 
             await UniTask.Delay(TimeSpan.FromSeconds(1.0f));
 
-            await UniTask.WaitUntil(() => popup.IsActive);
+            await UniTask.WaitUntil(() => !popup.IsActive);
             
             await UniTask.Delay(TimeSpan.FromSeconds(1.0f));
         }

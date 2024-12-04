@@ -1,9 +1,9 @@
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using PrimeTween;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,26 +20,62 @@ public class ListPopup : PopupBase<ListPopup>, IPopup
     [SerializeField] private TweenInfo panelMoveTween_On;
     [SerializeField] private TweenInfo panelMoveTween_Off;
 
-    [Header("---------------------------------")]
-    [Header("연결")]
+    [Header("---------------------------------")] 
+    [Header("연결")] 
     [Space(5)] 
+    [SerializeField] private RectTransform rtCellParent;
+    [SerializeField] private ScrollRect scrollRect;
+
+    private const string _cellPrefabPath = "Cell/CellFile";
+    private GameObject _cachedCellPrefab;
     
+    private readonly List<CellFile> _listCell = new();
+    private readonly List<YDLib.FileItem> _listData = new();
 
     private CancellationTokenSource _cts;
 
-    private void Init()
+    private async UniTask Init()
     {
+        _listData.Clear();
+
+        _listData.AddRange(await NetworkManager.Instance.RequestList());
+        
+        ResetList();
     }
 
-    private void RefreshList()
+    private void ResetList()
     {
+        scrollRect.normalizedPosition = Vector2.zero;
         
+        _listCell.Clear();
+        
+        _listCell.ForEach(cell=>cell.gameObject.SetActive(false));
+
+        for (int i = _listCell.Count; i < _listData.Count; i++)
+        {
+            if(_cachedCellPrefab == null)
+                _cachedCellPrefab =  Resources.Load<GameObject>(_cellPrefabPath);
+            GameObject insCell = Instantiate(_cachedCellPrefab);
+
+            insCell.transform.SetParent(rtCellParent);
+            insCell.TryGetComponent(out CellFile cellFile);
+            
+            _listCell.Add(cellFile);
+        }
+
+        for (int i = 0; i < _listCell.Count; i++)
+        {
+            _listCell[i].Init(_listData[i]);
+            _listCell[i].gameObject.SetActive(true);
+        }
     }
     
     #region Popup
 
     public void ShowWithAnimation()
     {
+        Init().Forget();
+        
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         
