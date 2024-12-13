@@ -17,7 +17,7 @@ public class FlowController : MonoBehaviour
 
     private async UniTask ConnectCheckProcess()
     {
-        while (!UrlAvailableCheck())
+        while (!await UrlAvailableCheck())
         {
             var popup = PopupManager.Instance.ShowPopup<ConnectSettingPopup>();
             popup.ShowWithAnimation();
@@ -30,7 +30,7 @@ public class FlowController : MonoBehaviour
         }
     }
 
-    private bool UrlAvailableCheck()
+    private async UniTask<bool> UrlAvailableCheck()
     {
         string ipSetting = ConnectionConfigManager.Instance.GetIpSetting();
 
@@ -42,6 +42,9 @@ public class FlowController : MonoBehaviour
 
         string portSetting = ConnectionConfigManager.Instance.GetPortSetting();
         if (string.IsNullOrEmpty(portSetting))
+            return false;
+
+        if (!await NetworkManager.Instance.RequestCheck())
             return false;
 
         return true;
