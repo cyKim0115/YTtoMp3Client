@@ -12,6 +12,8 @@ public class FlowController : MonoBehaviour
 
     private async UniTaskVoid Flow()
     {
+        Application.targetFrameRate = 60;
+        
         await ConnectCheckProcess();
     }
 
