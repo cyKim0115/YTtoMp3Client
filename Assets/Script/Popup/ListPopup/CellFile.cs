@@ -1,11 +1,11 @@
 using Cysharp.Threading.Tasks;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using YDLib;
 
 public class CellFile : MonoBehaviour
 {
-    [SerializeField] private TMP_Text txtName;
+    [SerializeField] private Text txtName;
 
     private FileItem data;
     
